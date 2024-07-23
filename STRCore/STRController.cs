@@ -231,6 +231,27 @@ namespace STRCore
             }
         }
 
+        public STRLine DefineSTRLine(STRNode startNode, STRNode endNode)
+        {
+            int id = GetNextLineId();
+            STRLine definedLine = new(id, startNode, endNode);
+            Structure.STRLines.Add(definedLine);
+            return definedLine;
+        }
+
+        public void ModifySTRLine(STRLine line, STRNode startNode, STRNode endNode, STRMaterial? material, STRSection? section, STRRelease? release)
+        {
+            if (Structure.STRLines.Exists(x => x.Id == line.Id))
+            {
+                line.StartNode = startNode;
+                line.EndNode = endNode;
+                line.Material = material;
+                line.Section = section;
+                line.Release = release;
+                line.Refresh();
+            }
+        }
+
         public void DeleteSTRLine(STRLine line)
         {
             if (Structure.STRLines.Exists(x => x.Id == line.Id))

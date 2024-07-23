@@ -82,6 +82,12 @@ namespace STRCore
                 output.AppendLine(node.ToString());
             }
 
+            output.AppendLine("Lines:");
+            foreach (var line in STRLines)
+            {
+                output.AppendLine(line.ToString());
+            }
+
             return output.ToString();
         }
     }

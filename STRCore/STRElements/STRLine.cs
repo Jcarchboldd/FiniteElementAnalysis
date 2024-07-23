@@ -139,7 +139,10 @@ namespace STRCore.STRElements
                    $"Length: {Length:0.00}{Environment.NewLine}" +
                    $"vx: {Vx?[0]:0.00}, {Vx?[1]:0.00}, {Vx?[2]:0.00}{Environment.NewLine}" +
                    $"vy: {Vy?[0]:0.00}, {Vy?[1]:0.00}, {Vy?[2]:0.00}{Environment.NewLine}" +
-                   $"vz: {Vz?[0]:0.00}, {Vz?[1]:0.00}, {Vz?[2]:0.00}";
+                   $"vz: {Vz?[0]:0.00}, {Vz?[1]:0.00}, {Vz?[2]:0.00}{Environment.NewLine}" +
+                   $"Section: {(Section == null ? "None" : Section.Name)}{Environment.NewLine}" +
+                   $"Material: {(Material == null ? "None" : Material.Name)}{Environment.NewLine}" +
+                   $"Release: {(Release == null ? "None" : Release.Name)}";
         }
     }
 }
