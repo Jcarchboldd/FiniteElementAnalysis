@@ -43,12 +43,15 @@ namespace STRCore
 
         public void DeleteSTRMaterial(STRMaterial material)
         {
-            Structure.STRMaterials.Remove(material);
-            foreach (var line in Structure.STRLines)
+            if (Structure.STRSupports.Exists(x => x.Id == material.Id))
             {
-                if (line.Material?.Id == material.Id)
+                Structure.STRMaterials.Remove(material);
+                foreach (var line in Structure.STRLines)
                 {
-                    line.Material = null;
+                    if (line.Material?.Id == material.Id)
+                    {
+                        line.Material = null;
+                    }
                 }
             }
         }
@@ -83,12 +86,15 @@ namespace STRCore
 
         public void DeleteSTRRelease(STRRelease release)
         {
-            Structure.STRReleases.Remove(release);
-            foreach (var line in Structure.STRLines)
+            if (Structure.STRSupports.Exists(x => x.Id == release.Id))
             {
-                if (line.Release?.Id == release.Id)
+                Structure.STRReleases.Remove(release);
+                foreach (var line in Structure.STRLines)
                 {
-                    line.Release = null;
+                    if (line.Release?.Id == release.Id)
+                    {
+                        line.Release = null;
+                    }
                 }
             }
         }
@@ -119,12 +125,50 @@ namespace STRCore
 
         public void DeleteSTRSupport(STRSupport support)
         {
-            Structure.STRSupports.Remove(support);
-            foreach (var node in Structure.STRNodes)
+            if (Structure.STRSections.Exists(x => x.Id == support.Id))
             {
-                if (node.Support?.Id == support.Id)
+                Structure.STRSupports.Remove(support);
+                foreach (var node in Structure.STRNodes)
                 {
-                    node.Support = null;
+                    if (node.Support?.Id == support.Id)
+                    {
+                        node.Support = null;
+                    }
+                }
+            }
+        }
+
+        public STRSection DefineSTRSection(string name, double area, double inertiaX, double inertiaY, double inertiaZ)
+        {
+            int id = GetNextSectionId();
+            STRSection definedSection = new(id, name, area, inertiaX, inertiaY, inertiaZ);
+            Structure.STRSections.Add(definedSection);
+            return definedSection;
+        }
+
+        public void ModifySTRSection(STRSection section, string name, double area, double inertiaX, double inertiaY, double inertiaZ)
+        {
+            if (Structure.STRSections.Exists(x => x.Id == section.Id))
+            {
+                section.Name = name;
+                section.Area = area;
+                section.InertiaX = inertiaX;
+                section.InertiaY = inertiaY;
+                section.InertiaZ = inertiaZ;
+            }
+        }
+
+        public void DeleteSTRSection(STRSection section)
+        {
+            if (Structure.STRSections.Exists(x => x.Id == section.Id))
+            {
+                Structure.STRSections.Remove(section);
+                foreach (var line in Structure.STRLines)
+                {
+                    if (line.Section?.Id == section.Id)
+                    {
+                        line.Section = null;
+                    }
                 }
             }
         }

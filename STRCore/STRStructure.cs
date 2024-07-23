@@ -70,6 +70,12 @@ namespace STRCore
                 output.AppendLine(support.ToString());
             }
 
+            output.AppendLine("Sections:");
+            foreach (var section in STRSections)
+            {
+                output.AppendLine(section.ToString());
+            }
+
             return output.ToString();
         }
     }

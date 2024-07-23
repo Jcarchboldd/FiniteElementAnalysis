@@ -5,17 +5,18 @@ STRController.Initialize();
 if (STRController.CurrentController != null)
 {
 	
-    STRSupport pin = STRController.CurrentController.DefineSTRSupport("Pin",true, true, true, false, false, false);
+    STRSection section1 = STRController.CurrentController.DefineSTRSection("Sec1", 0.15, 0.05, 0.05, 0.05);
+    STRSection section2 = STRController.CurrentController.DefineSTRSection("Sec2", 0.30, 0.10, 0.10, 0.10);
 
     STRSupport roller = STRController.CurrentController.DefineSTRSupport("Roller",false, false, true, false, false, false);    
 
 	Console.WriteLine(STRController.CurrentController);
 
-    STRController.CurrentController.ModifySTRSupport(roller, "Fixed", true, true, true, true, true, true);
+    STRController.CurrentController.ModifySTRSection(section1, "Sec1_mod", 0.25, 0.05, 0.05, 0.05);
 
     Console.WriteLine(STRController.CurrentController);
 
-    STRController.CurrentController.DeleteSTRSupport(pin);
+    STRController.CurrentController.DeleteSTRSection(section1);
 
     Console.WriteLine(STRController.CurrentController);
 
