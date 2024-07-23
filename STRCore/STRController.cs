@@ -173,6 +173,72 @@ namespace STRCore
             }
         }
 
+        public STRNode DefineSTRNode(double x, double y, double z)
+        {
+            int id = GetNextNodeId();
+            STRNode definedNode = new(id, x, y, z);
+            Structure.STRNodes.Add(definedNode);
+            return definedNode;
+        }
+
+        public void ModifySTRNode(STRNode node, double x, double y, double z, STRSupport? support)
+        {
+            if (Structure.STRNodes.Exists(x => x.Id == node.Id))
+            {
+                node.X = x;
+                node.Y = y;
+                node.Z = z;
+                node.Support = support;
+                foreach (var line in Structure.STRLines)
+                {
+                    if (line.StartNode.Id == node.Id || line.EndNode.Id == node.Id)
+                    {
+                        line.Refresh();
+                    }
+                }
+            }
+        }
+
+        public void DeleteSTRNode(STRNode node, bool forceDelete = false)
+        {
+            bool isNodePartOfLine = false;
+            foreach (var line in Structure.STRLines)
+            {
+                if (line.StartNode.Id == node.Id || line.EndNode.Id == node.Id)
+                {
+                    isNodePartOfLine = true;
+                    break;
+                }
+            }
+
+            if (isNodePartOfLine && !forceDelete)
+            {
+                return;
+            }
+            else
+            {
+                if (Structure.STRNodes.Exists(x => x.Id == node.Id))
+                {
+                    Structure.STRNodes.Remove(node);
+                }
+                
+                List<STRLine> affectedLines = Structure.STRLines.FindAll(x => x.StartNode.Id == node.Id || x.EndNode.Id == node.Id);
+
+                foreach (var line in affectedLines)
+                {
+                    DeleteSTRLine(line);
+                }
+            }
+        }
+
+        public void DeleteSTRLine(STRLine line)
+        {
+            if (Structure.STRLines.Exists(x => x.Id == line.Id))
+            {
+                Structure.STRLines.Remove(line);
+            }
+        }
+
         private int GetNextNodeId()
         {
             return Structure.LastNodeId++;

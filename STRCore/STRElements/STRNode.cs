@@ -38,7 +38,7 @@
 
         public override string ToString()
         {
-            return $"STRNode {Id}: ({X.ToString("0.00")}, {Y.ToString("0.00")}, {Z.ToString("0.00")})";
+            return $"STRNode {Id}: ({X:0.00}, {Y:0.00}, {Z:0.00}) - Support: {(Support == null ? "Free" : Support.Name)}";
         }
     }
 

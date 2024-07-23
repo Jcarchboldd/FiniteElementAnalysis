@@ -76,6 +76,12 @@ namespace STRCore
                 output.AppendLine(section.ToString());
             }
 
+            output.AppendLine("Nodes:");
+            foreach (var node in STRNodes)
+            {
+                output.AppendLine(node.ToString());
+            }
+
             return output.ToString();
         }
     }
