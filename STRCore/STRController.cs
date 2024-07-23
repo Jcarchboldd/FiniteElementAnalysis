@@ -93,6 +93,42 @@ namespace STRCore
             }
         }
 
+        public STRSupport DefineSTRSupport(string name, bool isUxActive, bool isUyActive, bool isUzActive, bool isRxActive, bool isRyActive, bool isRzActive)
+        {
+            int id = GetNextSupportId();
+            STRSupport definedSupport = new(id, name, isUxActive, isUyActive, isUzActive, isRxActive, isRyActive, isRzActive);
+            Structure.STRSupports.Add(definedSupport);
+            return definedSupport;
+        }
+
+        public void ModifySTRSupport(STRSupport support, string name, bool isUxActive, bool isUyActive, bool isUzActive, bool isRxActive, bool isRyActive, bool isRzActive)
+        {
+            if (Structure.STRSupports.Exists(x => x.Id == support.Id))
+            {
+                support.Name = name;
+                support.IsUxActive = isUxActive;
+                support.IsUyActive = isUyActive;
+                support.IsUzActive = isUzActive;
+                support.IsRxActive = isRxActive;
+                support.IsRyActive = isRyActive;
+                support.IsRzActive = isRzActive;
+
+                support.Refresh();
+            }
+        }
+
+        public void DeleteSTRSupport(STRSupport support)
+        {
+            Structure.STRSupports.Remove(support);
+            foreach (var node in Structure.STRNodes)
+            {
+                if (node.Support?.Id == support.Id)
+                {
+                    node.Support = null;
+                }
+            }
+        }
+
         private int GetNextNodeId()
         {
             return Structure.LastNodeId++;

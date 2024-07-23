@@ -64,6 +64,12 @@ namespace STRCore
                 output.AppendLine(release.ToString());
             }
 
+            output.AppendLine("Supports:");
+            foreach (var support in STRSupports)
+            {
+                output.AppendLine(support.ToString());
+            }
+
             return output.ToString();
         }
     }

@@ -4,18 +4,18 @@ using STRCore.STRElements;
 STRController.Initialize();
 if (STRController.CurrentController != null)
 {
-	STRMaterial conc = STRController.CurrentController.DefineSTRMaterial("Concrete", 20e9);
-    STRMaterial steel = STRController.CurrentController.DefineSTRMaterial("Steel", 200e9);
+	
+    STRSupport pin = STRController.CurrentController.DefineSTRSupport("Pin",true, true, true, false, false, false);
 
-    STRRelease release1 = STRController.CurrentController.DefineSTRRelease("r1", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);    
+    STRSupport roller = STRController.CurrentController.DefineSTRSupport("Roller",false, false, true, false, false, false);    
 
 	Console.WriteLine(STRController.CurrentController);
 
-    STRController.CurrentController.ModifySTRRelease(release1, "r1_modified", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    STRController.CurrentController.ModifySTRSupport(roller, "Fixed", true, true, true, true, true, true);
 
     Console.WriteLine(STRController.CurrentController);
 
-    STRController.CurrentController.DeleteSTRRelease(release1);
+    STRController.CurrentController.DeleteSTRSupport(pin);
 
     Console.WriteLine(STRController.CurrentController);
 
