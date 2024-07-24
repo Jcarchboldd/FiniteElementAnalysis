@@ -71,33 +71,33 @@ namespace STRCore
             output.AppendLine("Structure:");
 
             AppendCollectionToStringBuilder(output, "Materials:", STRMaterials);
-            AppendCollectionToStringBuilderWithSeparator(output, "Releases:", STRReleases);
-            AppendCollectionToStringBuilderWithSeparator(output, "Supports:", STRSupports);
-            AppendCollectionToStringBuilderWithSeparator(output, "Sections:", STRSections);
-            AppendCollectionToStringBuilderWithSeparator(output, "Nodes:", STRNodes);
-            AppendCollectionToStringBuilderWithSeparator(output, "Lines:", STRLines);
-            AppendCollectionToStringBuilderWithSeparator(output, "Load Cases:", STRLoadCases);
-            AppendCollectionToStringBuilderWithSeparator(output, "Load Combinations:", STRLoadCombinations);
-            AppendCollectionToStringBuilderWithSeparator(output, "Loads:", STRLoads, ConsoleColor.Yellow);
+            AppendSeparator(output);
+            AppendCollectionToStringBuilder(output, "Releases:", STRReleases);
+            AppendSeparator(output);
+            AppendCollectionToStringBuilder(output, "Supports:", STRSupports);
+            AppendSeparator(output);
+            AppendCollectionToStringBuilder(output, "Sections:", STRSections);
+            AppendSeparator(output);
+            AppendCollectionToStringBuilder(output, "Nodes:", STRNodes);
+            AppendSeparator(output);
+            AppendCollectionToStringBuilder(output, "Lines:", STRLines);
+            AppendSeparator(output);
+            AppendCollectionToStringBuilder(output, "Load Cases:", STRLoadCases);
+            AppendSeparator(output);
+            AppendCollectionToStringBuilder(output, "Load Combinations:", STRLoadCombinations);
+            AppendSeparator(output);
+            AppendCollectionToStringBuilder(output, "*** Loads ***:", STRLoads);
 
             return output.ToString();
         }
 
-        private void AppendCollectionToStringBuilder<T>(StringBuilder sb, string header, IEnumerable<T> collection, ConsoleColor color = ConsoleColor.White)
+        private void AppendCollectionToStringBuilder<T>(StringBuilder sb, string header, IEnumerable<T> collection)
         {
-            Console.ForegroundColor = color;
             sb.AppendLine(header);
             foreach (var item in collection)
             {
                 sb.AppendLine(item?.ToString());
             }
-            Console.ResetColor();
-        }
-
-        private void AppendCollectionToStringBuilderWithSeparator<T>(StringBuilder sb, string header, IEnumerable<T> collection, ConsoleColor color = ConsoleColor.White)
-        {
-            AppendSeparator(sb);
-            AppendCollectionToStringBuilder(sb, header, collection, color);
         }
 
         private void AppendSeparator(StringBuilder sb)
