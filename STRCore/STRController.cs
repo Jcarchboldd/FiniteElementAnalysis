@@ -1,4 +1,5 @@
 ﻿using STRCore.STRElements;
+using static Global.Enums;
 
 namespace STRCore
 {
@@ -260,6 +261,93 @@ namespace STRCore
             }
         }
 
+        public STRLoadCase DefineSTRLoadCase(string name, LoadCaseType loadCaseType)
+        {
+            int id = GetNextLoadCaseId();
+            STRLoadCase definedLoadCase = new(id, name, loadCaseType);
+            Structure.STRLoadCases.Add(definedLoadCase);
+            return definedLoadCase;
+        }
+
+        public void ModifySTRLoadCase(STRLoadCase loadCase, string name, LoadCaseType loadCaseType)
+        {
+            if (Structure.STRLoadCases.Exists(x => x.Id == loadCase.Id))
+            {
+                loadCase.Name = name;
+                loadCase.Type = loadCaseType;
+            }
+        }
+
+        public void DeleteSTRLoadCase(STRLoadCase loadCase)
+        {
+            if (Structure.STRLoadCases.Exists(x => x.Id == loadCase.Id))
+            {
+                Structure.STRLoadCases.Remove(loadCase);
+
+                for (int i = 0; i < Structure.STRLoadCases.Count; i++)
+                {
+                    STRLoadCase possibleCombination = Structure.STRLoadCases[i];
+                    if (possibleCombination is STRLoadCombination combination)
+                    {
+                        STRLoadCombination comb = (STRLoadCombination)possibleCombination;
+                        if (comb.LoadCases.Exists(x => x.Id == loadCase.Id))
+                        {
+                            int index = comb.LoadCases.FindIndex(x => x.Id == loadCase.Id);
+                            comb.LoadCases.RemoveAt(index);
+                            comb.LoadCaseFactors.RemoveAt(index);
+                        }
+                    }
+                }
+            }
+        }
+
+        public STRLoadCombination DefineSTRLoadCombination(string name, LoadCombinationType loadCombinationType)
+        {
+            int id = GetNextLoadCaseId();
+            STRLoadCombination definedLoadCombination = new(id, name, loadCombinationType);
+            Structure.STRLoadCombinations.Add(definedLoadCombination);
+            return definedLoadCombination;
+        }
+
+        public void ModifySTRLoadCombination(STRLoadCombination loadCombination, string name, LoadCombinationType loadCombinationType, List<STRLoadCase> loadCases, List<double> loadCaseFactors)
+        {
+            if (Structure.STRLoadCombinations.Exists(x => x.Id == loadCombination.Id))
+            {
+                loadCombination.Name = name;
+                loadCombination.LoadCombinationType = loadCombinationType;
+                loadCombination.LoadCases.Clear();
+                for (int i = 0; i < loadCases.Count; i++)
+                {
+                    loadCombination.LoadCases.Add(loadCases[i]);
+                    loadCombination.LoadCaseFactors.Add(loadCaseFactors[i]);
+                } 
+            }
+        }
+
+        public void DeleteSTRLoadCombination(STRLoadCombination loadCombination)
+        {
+            if (Structure.STRLoadCombinations.Exists(x => x.Id == loadCombination.Id))
+            {
+                Structure.STRLoadCombinations.Remove(loadCombination);
+            }
+        }
+
+        public STRLoad DefineSTRLoad(STRLoadCase loadCase, List<int> appliedOnIds)
+        {
+            int id = GetNextLoadId();
+            STRLoad definedLoad = new(id, loadCase, appliedOnIds);
+            Structure.STRLoads.Add(definedLoad);
+            return definedLoad;
+        }
+
+        public void DeleteSTRLoad(STRLoad load)
+        {
+            if (Structure.STRLoads.Exists(x => x.Id == load.Id))
+            {
+                Structure.STRLoads.Remove(load);
+            }
+        }
+
         private int GetNextNodeId()
         {
             return Structure.LastNodeId++;
@@ -290,6 +378,20 @@ namespace STRCore
             return Structure.LastSectionId++;
         }
 
+        private int GetNextLoadCaseId()
+        {
+            return Structure.LastLoadCaseId++;
+        }
+
+        private int GetNextLoadCombinationId()
+        {
+            return Structure.LastLoadCombinationId++;
+        }
+
+        private int GetNextLoadId()
+        {
+            return Structure.LastLoadId++;
+        }
 
     }
 

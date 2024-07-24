@@ -18,6 +18,12 @@ namespace STRCore
 
         public int LastSupportId { get; set; }
 
+        public int LastLoadCaseId { get; set; }
+
+        public int LastLoadCombinationId { get; set; }
+
+        public int LastLoadId { get; set; }
+
         public List<STRNode> STRNodes { get; set; }
 
         public List<STRLine> STRLines { get; set; }
@@ -30,6 +36,12 @@ namespace STRCore
 
         public List<STRMaterial> STRMaterials { get; set; }
 
+        public List<STRLoadCase> STRLoadCases { get; set; }
+
+        public List<STRLoadCombination> STRLoadCombinations { get; set; }
+
+        public List<STRLoad> STRLoads { get; set; }
+
         internal STRStructure()
         {
             STRNodes = [];
@@ -38,57 +50,59 @@ namespace STRCore
             STRSupports = [];
             STRSections = [];
             STRMaterials = [];
+            STRLoadCases = [];
+            STRLoadCombinations = [];
+            STRLoads = [];
 
-            LastLineId = 0;
-            LastNodeId = 0;
-            LastMaterialId = 0;
-            LastRelesaeId = 0;
-            LastSupportId = 0;
-            LastSectionId = 0;
+            LastLineId = 1;
+            LastNodeId = 1;
+            LastMaterialId = 1;
+            LastRelesaeId = 1;
+            LastSupportId = 1;
+            LastSectionId = 1;
+            LastLoadCaseId = 1;
+            LastLoadCombinationId = 1;
+            LastLoadId = 1;
         }
 
         public override string ToString()
         {
             var output = new StringBuilder();
             output.AppendLine("Structure:");
-            
-            output.AppendLine("Materials:");
-            foreach (var material in STRMaterials)
-            {
-                output.AppendLine(material.ToString());
-            }
 
-            output.AppendLine("Releases:");
-            foreach (var release in STRReleases)
-            {
-                output.AppendLine(release.ToString());
-            }
-
-            output.AppendLine("Supports:");
-            foreach (var support in STRSupports)
-            {
-                output.AppendLine(support.ToString());
-            }
-
-            output.AppendLine("Sections:");
-            foreach (var section in STRSections)
-            {
-                output.AppendLine(section.ToString());
-            }
-
-            output.AppendLine("Nodes:");
-            foreach (var node in STRNodes)
-            {
-                output.AppendLine(node.ToString());
-            }
-
-            output.AppendLine("Lines:");
-            foreach (var line in STRLines)
-            {
-                output.AppendLine(line.ToString());
-            }
+            AppendCollectionToStringBuilder(output, "Materials:", STRMaterials);
+            AppendCollectionToStringBuilderWithSeparator(output, "Releases:", STRReleases);
+            AppendCollectionToStringBuilderWithSeparator(output, "Supports:", STRSupports);
+            AppendCollectionToStringBuilderWithSeparator(output, "Sections:", STRSections);
+            AppendCollectionToStringBuilderWithSeparator(output, "Nodes:", STRNodes);
+            AppendCollectionToStringBuilderWithSeparator(output, "Lines:", STRLines);
+            AppendCollectionToStringBuilderWithSeparator(output, "Load Cases:", STRLoadCases);
+            AppendCollectionToStringBuilderWithSeparator(output, "Load Combinations:", STRLoadCombinations);
+            AppendCollectionToStringBuilderWithSeparator(output, "Loads:", STRLoads, ConsoleColor.Yellow);
 
             return output.ToString();
+        }
+
+        private void AppendCollectionToStringBuilder<T>(StringBuilder sb, string header, IEnumerable<T> collection, ConsoleColor color = ConsoleColor.White)
+        {
+            Console.ForegroundColor = color;
+            sb.AppendLine(header);
+            foreach (var item in collection)
+            {
+                sb.AppendLine(item?.ToString());
+            }
+            Console.ResetColor();
+        }
+
+        private void AppendCollectionToStringBuilderWithSeparator<T>(StringBuilder sb, string header, IEnumerable<T> collection, ConsoleColor color = ConsoleColor.White)
+        {
+            AppendSeparator(sb);
+            AppendCollectionToStringBuilder(sb, header, collection, color);
+        }
+
+        private void AppendSeparator(StringBuilder sb)
+        {
+            sb.AppendLine(new string('-', 40)); // Adds a separator line of 40 dashes
         }
     }
 
