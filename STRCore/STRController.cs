@@ -9,6 +9,12 @@ namespace STRCore
 
         public STRStructure Structure { get; set; }
 
+        public void PerformAnalysis()
+        {
+            //Clear the old analysis
+            Helpers.ModelHelper.ClearStructuralModel();
+        }
+
         public static void Initialize()
         {
             CurrentController = new STRController();

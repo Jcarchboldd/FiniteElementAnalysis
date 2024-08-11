@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Text;
+using STRCore.FEMElements;
 using STRCore.STRElements;
 
 namespace STRCore
@@ -24,6 +25,11 @@ namespace STRCore
 
         public int LastLoadId { get; set; }
 
+        public int LastFEMNodeId { get; set; }
+
+        public int LastFEMBarId { get; set; }
+
+
         public List<STRNode> STRNodes { get; set; }
 
         public List<STRLine> STRLines { get; set; }
@@ -41,6 +47,8 @@ namespace STRCore
         public List<STRLoadCombination> STRLoadCombinations { get; set; }
 
         public List<STRLoad> STRLoads { get; set; }
+        public List<FEMNode> FEMNodes { get; set; }
+        public List<FEMBar> FEMBars { get; set; }
 
         internal STRStructure()
         {
@@ -53,6 +61,8 @@ namespace STRCore
             STRLoadCases = [];
             STRLoadCombinations = [];
             STRLoads = [];
+            FEMNodes = [];
+            FEMBars = [];
 
             LastLineId = 1;
             LastNodeId = 1;
@@ -63,6 +73,8 @@ namespace STRCore
             LastLoadCaseId = 1;
             LastLoadCombinationId = 1;
             LastLoadId = 1;
+            LastFEMNodeId = 1;
+            LastFEMBarId = 1;
         }
 
         public override string ToString()
@@ -99,6 +111,14 @@ namespace STRCore
                 if (item is STRLoadNodal)
                 {
                     sb.AppendLine((item as STRLoadNodal)?.ToString());
+                }
+                else if (item is STRLoadLinearConcentrated)
+                {
+                    sb.AppendLine((item as STRLoadLinearConcentrated)?.ToString());
+                }
+                else if (item is STRLoadLinearDistributed)
+                {
+                    sb.AppendLine((item as STRLoadLinearDistributed)?.ToString());
                 }
                 else
                 {

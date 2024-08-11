@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using STRCore.FEMElements;
 
 namespace STRCore.STRElements
 {
@@ -84,6 +85,10 @@ namespace STRCore.STRElements
                 _vz = value;
             }
         }
+
+        public List<FEMBar> FEMBars { get; set; } = [];
+
+        public List<FEMNode> FEMNodes { get; set; } = [];
 
         internal STRLine(int id, STRNode startNode, STRNode endNode)
         {
