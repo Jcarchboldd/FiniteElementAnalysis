@@ -86,7 +86,7 @@ namespace STRCore
             AppendSeparator(output);
             AppendCollectionToStringBuilder(output, "Load Combinations:", STRLoadCombinations);
             AppendSeparator(output);
-            AppendCollectionToStringBuilder(output, "*** Loads ***:", STRLoads);
+            AppendCollectionToStringBuilder(output, "Loads:", STRLoads);
 
             return output.ToString();
         }
@@ -96,7 +96,14 @@ namespace STRCore
             sb.AppendLine(header);
             foreach (var item in collection)
             {
-                sb.AppendLine(item?.ToString());
+                if (item is STRLoadNodal)
+                {
+                    sb.AppendLine((item as STRLoadNodal)?.ToString());
+                }
+                else
+                {
+                    sb.AppendLine(item?.ToString());
+                }
             }
         }
 

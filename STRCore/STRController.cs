@@ -348,6 +348,83 @@ namespace STRCore
             }
         }
 
+         public STRLoadNodal DefineSTRLoadNodal(STRLoadCase loadCase, List<int> appliedOnIds, double fx, double fy, double fz, double mx, double my, double mz)
+        {
+            int id = GetNextLoadId();
+            STRLoadNodal output = new STRLoadNodal(id, loadCase, appliedOnIds, fx, fy, fz, mx, my, mz);
+            Structure.STRLoads.Add(output);
+            return output;
+        }
+        public void ModifySTRLoadNodal(STRLoadNodal target, STRLoadCase loadCase, List<int> appliedOnIds, double fx, double fy, double fz, double mx, double my, double mz)
+        {
+            target.LoadCase = loadCase;
+            target.AppliedOnIds.Clear();
+            foreach (int appliedOnId in appliedOnIds)
+                target.AppliedOnIds.Add(appliedOnId);
+            target.Fx = fx;
+            target.Fy = fy;
+            target.Fz = fz;
+            target.Mx = mx;
+            target.My = my;
+            target.Mz = mz;
+        }
+
+        public STRLoadLinearDistributed DefineSTRLoadLinearDistributed(STRLoadCase loadCase, List<int> appliedOnIds,
+            double fx1, double fy1, double fz1, double mx1, double my1, double mz1, double relativeLocation1,
+            double fx2, double fy2, double fz2, double mx2, double my2, double mz2, double relativeLocation2)
+        {
+            int id = GetNextLoadId();
+            STRLoadLinearDistributed output = new STRLoadLinearDistributed(id, loadCase, appliedOnIds,
+                fx1, fy1, fz1, mx1, my1, mz1, relativeLocation1,
+                fx2, fy2, fz2, mx2, my2, mz2, relativeLocation2);
+            Structure.STRLoads.Add(output);
+            return output;
+        }
+        public void ModifySTRLoadLinearDistributed(STRLoadLinearDistributed target, STRLoadCase loadCase, List<int> appliedOnIds,
+            double fx1, double fy1, double fz1, double mx1, double my1, double mz1, double relativeLocation1,
+            double fx2, double fy2, double fz2, double mx2, double my2, double mz2, double relativeLocation2)
+        {
+            target.LoadCase = loadCase;
+            target.AppliedOnIds.Clear();
+            foreach (int appliedOnId in appliedOnIds)
+                target.AppliedOnIds.Add(appliedOnId);
+            target.Fx1 = fx1;
+            target.Fy1 = fy1;
+            target.Fz1 = fz1;
+            target.Mx1 = mx1;
+            target.My1 = my1;
+            target.Mz1 = mz1;
+            target.RelativeLocation1 = relativeLocation1;
+            target.Fx2 = fx2;
+            target.Fy2 = fy2;
+            target.Fz2 = fz2;
+            target.Mx2 = mx2;
+            target.My2 = my2;
+            target.Mz2 = mz2;
+            target.RelativeLocation2 = relativeLocation2;
+        }
+        public STRLoadLinearConcentrated DefineSTRLoadLinearConcentrated(STRLoadCase loadCase, List<int> appliedOnIds, double fx, double fy, double fz, double mx, double my, double mz, double relativeLocation)
+        {
+            int id = GetNextLoadId();
+            STRLoadLinearConcentrated output = new STRLoadLinearConcentrated(id, loadCase, appliedOnIds, fx, fy, fz, mx, my, mz, relativeLocation);
+            Structure.STRLoads.Add(output);
+            return output;
+        }
+        public void ModifySTRLoadLinearConcentrated(STRLoadLinearConcentrated target, STRLoadCase loadCase, List<int> appliedOnIds, double fx, double fy, double fz, double mx, double my, double mz, double relativeLocation)
+        {
+            target.LoadCase = loadCase;
+            target.AppliedOnIds.Clear();
+            foreach (int appliedOnId in appliedOnIds)
+                target.AppliedOnIds.Add(appliedOnId);
+            target.Fx = fx;
+            target.Fy = fy;
+            target.Fz = fz;
+            target.Mx = mx;
+            target.My = my;
+            target.Mz = mz;
+            target.RelativeLocation = relativeLocation;
+        }
+
         private int GetNextNodeId()
         {
             return Structure.LastNodeId++;
@@ -393,7 +470,5 @@ namespace STRCore
             return Structure.LastLoadId++;
         }
 
-    }
-
-    
+    } 
 }
